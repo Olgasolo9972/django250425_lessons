@@ -93,17 +93,17 @@ class Book(models.Model):
             )
         ]
 
-        constraints = [
-            models.UniqueConstraint(
-                fields=["title", "published_date"],
-                name="unq_title_pub_date"
-            ),
-
-            models.CheckConstraint(
-                check=models.Q(pages__gte=0),
-                name="book_pages_constraint"
-            )
-        ]
+        # constraints = [
+        #     models.UniqueConstraint(
+        #         fields=["title", "published_date"],
+        #         name="unq_title_pub_date"
+        #     ),
+        #
+        #     models.CheckConstraint(
+        #         check=models.Q(pages__gte=0),
+        #         name="book_pages_constraint"
+        #     )
+        # ]
 
 
 
