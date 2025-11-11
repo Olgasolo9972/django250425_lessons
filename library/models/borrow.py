@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from library.models.user import User
+
 
 class Borrow(models.Model):
     member = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, related_name='borrows')
@@ -18,8 +20,12 @@ class Borrow(models.Model):
         ordering = ['-borrow_date']
 
     def __str__(self):
-        book_title = self.book.title if self.book else "N/A"
-        member_name = f"{self.member.last_name[0]}. {self.member.first_name}" if self.member else "N/A"
+        book_title = getattr(self.book, "title", "N/A")
+        try:
+            member = self.member
+            member_name = f"{member.last_name}. {member.first_name}"
+        except User.DoesNotExist:
+            member_name = "N/A"
         return f"{book_title} - {member_name} ({self.borrow_date})"
 
     def is_overdue(self):
